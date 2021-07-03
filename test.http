@@ -1,0 +1,22 @@
+POST http://localhost:8000/api/v1/module/
+Content-Type: application/json
+
+{
+    "name" : "My Module"
+}
+
+###
+GET http://localhost:8000/api/v1/module/
+
+###
+GET http://localhost:8000/api/v1/module/1
+
+###
+POST http://localhost:8000/api/v1/class/
+Content-Type: application/json
+
+{
+    "name" : "My class",
+    "module" : 1,
+    "date" : "2021-07-03T00:12:33.292Z"
+}
