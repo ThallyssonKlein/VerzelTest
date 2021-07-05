@@ -2,7 +2,15 @@ POST http://localhost:8000/api/v1/module/
 Content-Type: application/json
 
 {
-    "name" : "My Module"
+    "name" : "A My Module"
+}
+
+###
+POST http://localhost:8000/api/v1/module/
+Content-Type: application/json
+
+{
+    "name" : "B My Module"
 }
 
 ###
