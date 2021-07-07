@@ -18,10 +18,6 @@ export default function GlobalStyles({ children }) {
                         color : rgb(161, 145, 255);
                         font-family : "Catesque Regular"
                     }
-                    module {
-                        1px solid rgb(67, 51, 118);
-                        background: rgb(36, 18, 75) none repeat scroll 0% 0%;
-                    }
                 `}
             </style>
         </>

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { GetAll } from '../api/module';
 import GlobalStyles from '../components/GlobalStyles';
 import Modules, { GenerateModules } from '../components/Modules';
+import Selected from '../components/Selected';
 
 const styles = {
     container : {
@@ -44,10 +45,8 @@ export default function Home(){
                         </div>
                         {modules}
                         <hr/>
-                        {classesCount && <div>Total de aulas: {classesCount}</div>}
-                        {selected && selected.classes.map(classe => {
-                            return <div key={classe.name}>{classe.name}</div>
-                        })}
+                        {selected && <Selected name={selected.name} classes={selected.classes} count={classesCount}/>}
+
                 </div>
             </GlobalStyles>
 }
