@@ -1,0 +1,63 @@
+import Grid from '@material-ui/core/Grid';
+
+function GenerateClasses(classes){
+    let counter = 0;
+    let firstColumn = [];
+    let secondColumn = [];
+    let thirdColumn = [];
+
+    classes.forEach(classe => {
+        switch(counter){
+            case 0:
+                firstColumn.push(<div className="class" key={classe.name}>{classe.name}</div>);
+                break;
+            case 1:
+                secondColumn.push(<div className="class" key={classe.name}>{classe.name}</div>);
+                break;
+            case 2:
+                thirdColumn.push(<div className="class" key={classe.name}>{classe.name}</div>);
+                counter = 0;
+                break;
+            default:
+                ++counter;
+                break;
+        }
+    });
+    return [firstColumn, secondColumn, thirdColumn]
+}
+
+export default function Selected({name, classes, count = 0}){
+    const generatedClasses = GenerateClasses(classes);
+
+    return <div style={{padding : 20, display : "flex", flexDirection : "column", flex : 1, justifyContent : "center"}}>
+                <h1>{name}</h1>
+                <p>Todas as aulas disponíveis nesse módulo ({count}): </p>
+                <style jsx global>
+                    {`
+                        .class {
+                            border: 1px solid rgb(67, 51, 118);
+                            background: rgb(36, 18, 75) none repeat scroll 0% 0%;
+                            font-size : 30px;
+                            color : rgb(59, 212, 45);
+                            padding : 50px;
+                        }
+                        .class:hover {
+                            border: 1px solid rgb(59, 212, 45);
+                        }
+                    `}
+                </style>
+                <div style={{display : "flex", paddingTop : 50}}>
+                    <Grid container spacing={1}>
+                        <Grid container item xs={12} spacing={3}>
+                            {generatedClasses[0]}
+                        </Grid>
+                        <Grid container item xs={12} spacing={3}>
+                            {generatedClasses[1]}
+                        </Grid>
+                        <Grid container item xs={12} spacing={3}>
+                            {generatedClasses[2]}
+                        </Grid>
+                    </Grid>
+                </div>
+           </div>
+}
