@@ -6,6 +6,12 @@ export async function GetAll(){
     return apiResponse.data;
 }
 
+export async function GetOne(id){
+    const apiResponse = await API.get('/api/v1/module/' + id + '/');
+
+    return apiResponse.data;
+}
+
 export async function Post(name){
     const apiResponse = await API.post('/api/v1/module/', {name});
 

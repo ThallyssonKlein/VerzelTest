@@ -1,6 +1,7 @@
-import { GetAll, Post, Delete } from '../api/module';
+import { GetAll, Post, Delete, GetOne } from '../api/module';
 import { useEffect, useState } from 'react';
 import ModulesTable from '../components/ModulesTable';
+import ClassesTable from '../components/ClassesTable';
 import Modal from 'react-modal';
 import GlobalStyles from '../components/GlobalStyles';
 
@@ -20,7 +21,10 @@ export default function Modules(){
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [newModuleName, setNewModuleName] = useState("");
     const [selection, setSelection] = useState([]);
-    
+    const [editingClassesModalIsOpen, setEditingClassesModalIsOpen] = useState(false);
+    const [classes, setClasses] = useState(null);
+    const [classesSelection, setClassesSelection] = useState([]);
+
     async function loadData(){
         const apiResponse = await GetAll();
         if(apiResponse){
@@ -39,6 +43,10 @@ export default function Modules(){
     function closeModal(){
         setModalIsOpen(false);
         setNewModuleName("");
+    }
+
+    function closeClassesModal(){
+        setEditingClassesModalIsOpen(false);
     }
 
     async function save(){
@@ -66,6 +74,16 @@ export default function Modules(){
         }
     }
 
+    async function editClasses(){
+        if(selection.length !== 1){
+            alert('Você só pode editar as aulas de um módulo por vez');
+        }else{
+            const apiResponse = await GetOne(selection[0]);
+            setClasses(<ClassesTable classes={apiResponse.classes} setClassesSelection={setClassesSelection}/>);
+            setEditingClassesModalIsOpen(true);
+        }
+    }
+
     return <div style={{height : '100vh'}}>
                 <style jsx global>
                     {`
@@ -88,11 +106,12 @@ export default function Modules(){
                 <div className="row">
                     <button onClick={openModal}>Novo</button>
                     <button onClick={deleteF} style={{marginLeft : 10}}>Deletar</button>
+                    <button onClick={editClasses} style={{marginLeft : 10}}>Editar Aulas</button>
                 </div>
                 {(modules) ? modules : "Carregando..."}
                 <Modal isOpen={modalIsOpen}
                        style={customStyles}
-                       contentLabel="Example Modal">
+                       contentLabel="Adicionar um novo modulo">
                     <div className="row2">
                         <h2>Adicionar um novo modulo</h2>
                         <div style={{display : "flex", flexDirection : "column", paddingLeft : 10}}>
@@ -104,6 +123,23 @@ export default function Modules(){
                                value={newModuleName}
                                onChange={e => setNewModuleName(e.target.value)}/>
                         <button onClick={save}>SALVAR</button>
+                    </div>
+                </Modal>
+                <Modal isOpen={editingClassesModalIsOpen}
+                       style={customStyles}
+                       contentLabel="Editar as aulas do módulo">
+                    <div className="row2">
+                        <h2>Editar as aulas do módulo</h2>
+                        <div style={{display : "flex", flexDirection : "column", paddingLeft : 10}}>
+                            <button onClick={closeClassesModal}>X</button>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <button onClick={openModal}>Novo</button>
+                        <button onClick={deleteF} style={{marginLeft : 10}}>Deletar</button>
+                    </div>
+                    <div className="row2" style={{height : '50vh'}}>
+                        {classes}
                     </div>
                 </Modal>
             </div>
