@@ -17,3 +17,9 @@ export async function Delete(id){
 
     return apiResponse.ok;
 }
+
+export async function Patch(id, name){
+    const apiResponse = await API.patch('/api/v1/module/' + id + '/', {name});
+
+    return apiResponse.ok;
+}
