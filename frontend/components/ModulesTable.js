@@ -1,8 +1,6 @@
 import { DataGrid } from '@material-ui/data-grid';
 
-export default function ModulesTable({modules}){
-    console.log(modules);
-    
+export default function ModulesTable({modules, setSelection}){    
     return <DataGrid rows={modules}
                      columns={[
                         {
@@ -18,6 +16,9 @@ export default function ModulesTable({modules}){
                             editable: true,
                         }
                      ]}
+                     onSelectionModelChange={(newSelection) => {
+                        setSelection(newSelection.selectionModel);
+                    }}
                      pageSize={5}
                      checkboxSelection
                      disableSelectionOnClick/>

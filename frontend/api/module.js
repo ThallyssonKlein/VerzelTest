@@ -11,3 +11,9 @@ export async function Post(name){
 
     return apiResponse.ok;
 }
+
+export async function Delete(id){
+    const apiResponse = await API.delete('/api/v1/module/' + id + '/');
+
+    return apiResponse.ok;
+}

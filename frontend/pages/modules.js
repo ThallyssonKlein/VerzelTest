@@ -1,4 +1,4 @@
-import { GetAll, Post } from '../api/module';
+import { GetAll, Post, Delete } from '../api/module';
 import { useEffect, useState } from 'react';
 import ModulesTable from '../components/ModulesTable';
 import Modal from 'react-modal';
@@ -19,20 +19,18 @@ export default function Modules(){
     const [modules, setModules] = useState(null);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [newModuleName, setNewModuleName] = useState("");
+    const [selection, setSelection] = useState([]);
     
     async function loadData(){
         const apiResponse = await GetAll();
         if(apiResponse){
-            setModules(<ModulesTable modules={apiResponse}/>);
+            setModules(<ModulesTable modules={apiResponse} setSelection={setSelection}/>);
         }
     }
+
     useEffect(_ => {
         loadData();
     }, []);
-    
-    async function afterOpenModal(){
-
-    }
     
     function openModal(){
         setModalIsOpen(true);
@@ -53,8 +51,19 @@ export default function Modules(){
         }
     }
 
-    async function deleteF(id){
-
+    async function deleteF(){
+        try {
+            for(let item in selection){
+                const apiResponse = await Delete(selection[item]);
+                if(!apiResponse){
+                    throw new Error("Erro ao deletar o item " + selection[item]);
+                }
+            }
+            loadData();
+        } catch (e){
+            alert(e);
+            console.log(e);
+        }
     }
 
     return <div style={{height : '100vh'}}>
@@ -78,11 +87,10 @@ export default function Modules(){
                 </style>
                 <div className="row">
                     <button onClick={openModal}>Novo</button>
-                    <button onClick={deleteF}>Deletar</button>
+                    <button onClick={deleteF} style={{marginLeft : 10}}>Deletar</button>
                 </div>
                 {(modules) ? modules : "Carregando..."}
                 <Modal isOpen={modalIsOpen}
-                       onAfterOpen={afterOpenModal}
                        style={customStyles}
                        contentLabel="Example Modal">
                     <div className="row2">
