@@ -1,4 +1,5 @@
 import { GetAll, Post, Delete, GetOne } from '../api/module';
+import { Delete as DeleteClass } from '../api/class';
 import { useEffect, useState } from 'react';
 import ModulesTable from '../components/ModulesTable';
 import ClassesTable from '../components/ClassesTable';
@@ -74,6 +75,27 @@ export default function Modules(){
         }
     }
 
+    async function loadDataClass(){
+        const apiResponse = await GetOne(selection[0]);
+        setClasses(<ClassesTable classes={apiResponse.classes}
+                                 setClassesSelection={setClassesSelection}/>);
+    }
+
+    async function deleteFClasses(){
+        try {
+            for(let item in classesSelection){
+                const apiResponse = await DeleteClass(classesSelection[item]);
+                if(!apiResponse){
+                    throw new Error("Erro ao deletar o item " + classesSelection[item]);
+                }
+            }
+            loadDataClass();
+        } catch (e){
+            alert(e);
+            console.log(e);
+        }
+    }
+
     async function editClasses(){
         if(selection.length !== 1){
             alert('Você só pode editar as aulas de um módulo por vez');
@@ -136,7 +158,7 @@ export default function Modules(){
                     </div>
                     <div className="row">
                         <button onClick={openModal}>Novo</button>
-                        <button onClick={deleteF} style={{marginLeft : 10}}>Deletar</button>
+                        <button onClick={deleteFClasses} style={{marginLeft : 10}}>Deletar</button>
                     </div>
                     <div className="row2" style={{height : '50vh'}}>
                         {classes}
