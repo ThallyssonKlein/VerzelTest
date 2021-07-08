@@ -5,3 +5,9 @@ export async function GetAll(){
 
     return apiResponse.data;
 }
+
+export async function Post(name){
+    const apiResponse = await API.post('/api/v1/module/', {name});
+
+    return apiResponse.ok;
+}

@@ -6,6 +6,12 @@ export default function ModulesTable({modules}){
     return <DataGrid rows={modules}
                      columns={[
                         {
+                            field : 'id',
+                            headerName : 'Id',
+                            width : 150,
+                            editable : false
+                        },
+                        {
                             field: 'name',
                             headerName: 'Name',
                             width: 150,
