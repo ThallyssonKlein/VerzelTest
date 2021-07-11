@@ -17,5 +17,6 @@ urlpatterns = [
     path('admin/', admin.site.urls, name='admin'),
     path('doc/', schema_view, name='doc'),
     path('api/v1/', include(router.urls)),
-    path('api/auth', obtain_auth_token, name='authentication')
+    path('api/auth', obtain_auth_token, name='authentication'),
+    path('api/validateToken', views.TestToken.as_view(), name='validate_token')
 ]

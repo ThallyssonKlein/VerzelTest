@@ -2,7 +2,8 @@ from rest_framework import viewsets
 from .serializers import ModuleSerializer, ClassSerializer
 from .models import Module, Class
 from rest_framework.permissions import IsAuthenticated
-
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 class ModuleViewSet(viewsets.ModelViewSet):
     queryset = Module.objects.all().order_by('name')
@@ -24,3 +25,11 @@ class ClassViewSet(viewsets.ModelViewSet):
             return [IsAuthenticated()]
         else:
             return super(ClassViewSet, self).get_permissions()
+
+class TestToken(APIView):
+    def get_permissions(self):
+        return [IsAuthenticated()]
+
+    def get(self, request):
+        content = {'message': 'Ok'}
+        return Response(content)

@@ -1,11 +1,13 @@
 import { GetAll, Post, Delete, GetOne } from '../api/module';
 import { Delete as DeleteClass, Post as PostClass} from '../api/class';
+import { validateToken } from '../api/Token';
 import { useEffect, useState } from 'react';
 import ModulesTable from '../components/ModulesTable';
 import ClassesTable from '../components/ClassesTable';
 import Modal from 'react-modal';
 import GlobalStyles from '../components/GlobalStyles';
 import { DateTimePicker } from '@material-ui/pickers';
+import Cookies from 'cookies';
 
 const customStyles = {
     content: {
@@ -232,4 +234,17 @@ export default function Modules(){
                     </div>
                 </Modal>
             </div>
+}
+
+export async function getServerSideProps(ctx) {
+	const { req, res } = ctx;
+	const cookies = new Cookies(req, res);
+
+    const token = cookies.get("authenticated");
+	if (!token || !validateToken(token)){
+		return {
+			redirect: { destination: '/login', permanent: true },
+		};
+	}
+	return { props: {} };
 }
