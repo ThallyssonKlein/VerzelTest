@@ -6,9 +6,10 @@ export async function GetAll(){
     return apiResponse.data;
 }
 
-export async function Post(name){
-    const apiResponse = await API.post('/api/v1/class/', {name});
+export async function Post(name, module, date){
+    const apiResponse = await API.post('/api/v1/class/', {name, module, date});
 
+    console.log(apiResponse.data);
     return apiResponse.ok;
 }
 
