@@ -3,6 +3,7 @@ import { GetAll } from '../api/module';
 import GlobalStyles from '../components/GlobalStyles';
 import Modules, { GenerateModules } from '../components/Modules';
 import Selected from '../components/Selected';
+import Head from 'next/head';
 
 const styles = {
     container : {
@@ -40,6 +41,9 @@ export default function Home(){
     }, [selected]);
 
     return <GlobalStyles>
+                <Head>
+                    <title>Home</title>
+                </Head>
                 <div style={styles.container}>
                         <div style={styles.topTexts}>
                             <h1>Módulos</h1>

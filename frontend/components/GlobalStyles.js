@@ -1,6 +1,6 @@
-export default function GlobalStyles({ children, style }) {
+export default function GlobalStyles({ children, style, className }) {
     return (
-        <div style={style}>
+        <div style={style} className={className}>
             {children}
             <style jsx global>
                 {`
@@ -14,10 +14,27 @@ export default function GlobalStyles({ children, style }) {
                         font-size : 30px;
                         font-family : "Biennale Regular";
                     }
-                    
                     p {
                         color : rgb(161, 145, 255);
                         font-family : "Catesque Regular"
+                    }
+                    .viewport {
+                        height : 100vh;
+                        display : flex;
+                        flex : 1;
+                        flex-direction : column;
+                        justify-content : center;
+                        align-items: center;
+                    }
+                    col {
+                        display : flex;
+                        flex-direction : column;
+                    }
+                    .row {
+                        display : flex;
+                        flex-direction : row;
+                        
+                        align-items : center;
                     }
                 `}
             </style>

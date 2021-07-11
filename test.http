@@ -45,7 +45,7 @@ POST http://localhost:8080/api/v1/payment
 Content-Type: application/json
 
 {
-    "person" : "Thallysson",
-    "value" : 4.32,
-    "card" : "MASTERCARD"
+    "person" : "tk",
+    "value" : 1.2,
+    "flag" : "MASTERCARD"
 }

@@ -15,6 +15,7 @@
     "@material-ui/data-grid": "^4.0.0-alpha.33",
     "@material-ui/pickers": "^3.3.10",
     "apisauce": "^2.1.1",
+    "cookie-cutter": "^0.2.0",
     "cookies": "^0.8.0",
     "date-fns": "^2.22.1",
     "next": "^11.0.1",
