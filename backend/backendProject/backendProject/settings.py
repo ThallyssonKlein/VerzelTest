@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rest_framework_swagger',
+    'rest_framework.authtoken',
 
     'corsheaders'
 ]
@@ -140,3 +141,9 @@ CORS_ORIGIN_WHITELIST = [
 CORS_ORIGIN_REGEX_WHITELIST = [
     'http://localhost:3000',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
