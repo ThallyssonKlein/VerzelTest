@@ -8,13 +8,14 @@ Content-Type: application/json
 ###
 POST http://localhost:8000/api/v1/module/
 Content-Type: application/json
+Authorization: Token d820ad0464de9df5774032caa7142bd730cedd37
 
 {
-    "name" : "B My Module"
+    "name" : "X My Module"
 }
 
 ###
-GET http://localhost:8000/api/v1/module/
+GET http://localhost:8000/api/v1/module
 
 ###
 GET http://localhost:8000/api/v1/module/1
@@ -22,9 +23,29 @@ GET http://localhost:8000/api/v1/module/1
 ###
 POST http://localhost:8000/api/v1/class/
 Content-Type: application/json
+Authorization: Token d820ad0464de9df5774032caa7142bd730cedd37
 
 {
-    "name" : "A My class",
-    "module" : 1,
+    "name" : "X My class",
+    "module" : 6,
     "date" : "2021-07-03T00:12:33.292Z"
+}
+
+###
+POST http://localhost:8000/api/auth
+Content-Type: application/json
+
+{
+    "username" : "thallyssonklein",
+    "password" : "abcde"    
+}
+
+###
+POST http://localhost:8080/api/v1/payment
+Content-Type: application/json
+
+{
+    "person" : "tk",
+    "value" : 1.2,
+    "flag" : "MASTERCARD"
 }

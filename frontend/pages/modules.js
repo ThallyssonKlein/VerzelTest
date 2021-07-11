@@ -1,11 +1,16 @@
 import { GetAll, Post, Delete, GetOne } from '../api/module';
 import { Delete as DeleteClass, Post as PostClass} from '../api/class';
+import { validateToken } from '../api/Auth';
 import { useEffect, useState } from 'react';
 import ModulesTable from '../components/ModulesTable';
 import ClassesTable from '../components/ClassesTable';
 import Modal from 'react-modal';
 import GlobalStyles from '../components/GlobalStyles';
 import { DateTimePicker } from '@material-ui/pickers';
+import Cookies from 'cookies';
+import Head from 'next/head';
+import cookieCutter from 'cookie-cutter';
+import { useRouter } from 'next/router';
 
 const customStyles = {
     content: {
@@ -29,6 +34,7 @@ export default function Modules(){
     const [newClassModalIsOpen, setNewClassModalIsOpen] = useState(false);
     const [newClassName, setNewClassName] = useState("");
     const [newClassWhen, setNewClassWhen] = useState(new Date());
+    const router = useRouter();
 
     async function loadData(){
         const apiResponse = await GetAll();
@@ -147,6 +153,9 @@ export default function Modules(){
     }
 
     return <div style={{height : '100vh'}}>
+                <Head>
+                    <title>Administração</title>
+                </Head>
                 <style jsx global>
                     {`
                         .row {
@@ -173,6 +182,11 @@ export default function Modules(){
                     <button onClick={openModal}>Novo</button>
                     <button onClick={deleteF} style={{marginLeft : 10}}>Deletar</button>
                     <button onClick={editClasses} style={{marginLeft : 10}}>Editar Aulas</button>
+                    <button style={{marginLeft : 10}}
+                            onClick={_ => {
+                                cookieCutter.set("authenticated", "");
+                                router.push("/login");
+                            }}>Sair</button>
                 </div>
                 {(modules) ? modules : "Carregando..."}
                 <Modal isOpen={modalIsOpen}
@@ -232,4 +246,17 @@ export default function Modules(){
                     </div>
                 </Modal>
             </div>
+}
+
+export async function getServerSideProps(ctx) {
+	const { req, res } = ctx;
+	const cookies = new Cookies(req, res);
+
+    const token = cookies.get("authenticated");
+	if (!token || !validateToken(token)){
+		return {
+			redirect: { destination: '/login', permanent: true },
+		};
+	}
+	return { props: {} };
 }
