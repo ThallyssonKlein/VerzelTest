@@ -184,7 +184,7 @@ export default function Modules(){
                     <button onClick={editClasses} style={{marginLeft : 10}}>Editar Aulas</button>
                     <button style={{marginLeft : 10}}
                             onClick={_ => {
-                                cookieCutter.set("authenticated", false);
+                                cookieCutter.set("authenticated", "");
                                 router.push("/login");
                             }}>Sair</button>
                 </div>

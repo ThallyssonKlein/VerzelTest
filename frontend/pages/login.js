@@ -15,9 +15,11 @@ export default function Login() {
 
     async function doLogin(username, password){    
         const apiResponse = await Auth(username, password);
-        if(apiResponse){
-            cookieCutter.set("authenticated", apiResponse.token);
+        if(apiResponse.ok){
+            cookieCutter.set("authenticated", apiResponse.data.token);
             router.push("/modules");
+        }else{
+            alert("Usuário e/ou senha incorretos");
         }
     }
 

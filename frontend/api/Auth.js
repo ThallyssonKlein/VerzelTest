@@ -6,6 +6,6 @@ export async function validateToken(){
 }
 
 export async function Auth(username, password){
-    const apiResponse = await ApiObj.post('/api/auth/', {username, password});
-    return apiResponse.data;
+    const apiResponse = await ApiObj.post('/api/auth/', {username, password});   
+    return apiResponse;
 }
