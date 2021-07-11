@@ -1,6 +1,6 @@
-export default function GlobalStyles({ children }) {
+export default function GlobalStyles({ children, style }) {
     return (
-        <>
+        <div style={style}>
             {children}
             <style jsx global>
                 {`
@@ -14,12 +14,13 @@ export default function GlobalStyles({ children }) {
                         font-size : 30px;
                         font-family : "Biennale Regular";
                     }
+                    
                     p {
                         color : rgb(161, 145, 255);
                         font-family : "Catesque Regular"
                     }
                 `}
             </style>
-        </>
+        </div>
     );
 }

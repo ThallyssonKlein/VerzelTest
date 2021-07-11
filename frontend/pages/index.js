@@ -27,7 +27,9 @@ export default function Home(){
     useEffect(_ => {
         (async _ => {
             const apiResponse = await GetAll();
-            setModules(<Modules modules={GenerateModules(apiResponse, setSelected)}/>);
+            if(apiResponse){
+                setModules(<Modules modules={GenerateModules(apiResponse, setSelected)}/>);
+            }
         })();
     }, []);
 
