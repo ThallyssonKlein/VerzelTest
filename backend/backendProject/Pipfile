@@ -6,8 +6,8 @@ name = "pypi"
 [packages]
 django = "*"
 djangorestframework = "*"
-django-rest-swagger = "*"
 django-cors-headers = "*"
+drf-yasg = "*"
 
 [requires]
 python_version = "3.7"

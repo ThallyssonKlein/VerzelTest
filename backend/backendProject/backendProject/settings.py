@@ -41,8 +41,8 @@ INSTALLED_APPS = [
     'core',
 
     'rest_framework',
-    'rest_framework_swagger',
     'rest_framework.authtoken',
+    'drf_yasg',
 
     'corsheaders'
 ]
@@ -145,5 +145,5 @@ CORS_ORIGIN_REGEX_WHITELIST = [
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
-    ],
+    ]
 }
