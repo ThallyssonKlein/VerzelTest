@@ -3,7 +3,7 @@ import { Patch } from '../api/module';
 
 export default function ModulesTable({modules, setSelection}){    
 
-    async function handleDataChange({ id, field, props }){
+    async function handleDataChange({ id, props }){
         const apiResponse = await Patch(id, props.value);
         if(!apiResponse){
             alert("Erro ao salvar atualização!");

@@ -1,4 +1,7 @@
-import { GetAll, Post, Delete, GetOne } from '../api/module';
+import { useRouter } from 'next/router';
+import {
+    GetAll, Post, Delete, GetOne
+} from '../api/module';
 import { Delete as DeleteClass, Post as PostClass} from '../api/class';
 import { validateToken } from '../api/Auth';
 import { useEffect, useState } from 'react';
@@ -10,7 +13,6 @@ import { DateTimePicker } from '@material-ui/pickers';
 import Cookies from 'cookies';
 import Head from 'next/head';
 import cookieCutter from 'cookie-cutter';
-import { useRouter } from 'next/router';
 
 const customStyles = {
     content: {
@@ -25,7 +27,7 @@ const customStyles = {
 
 export default function Modules(){
     const [modules, setModules] = useState(null);
-    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [newModuleModalIsOpen, setNewModuleModalIsOpen] = useState(false);
     const [newModuleName, setNewModuleName] = useState("");
     const [selection, setSelection] = useState([]);
     const [editingClassesModalIsOpen, setEditingClassesModalIsOpen] = useState(false);
@@ -36,19 +38,30 @@ export default function Modules(){
     const [newClassWhen, setNewClassWhen] = useState(new Date());
     const router = useRouter();
 
-    async function loadData(){
+    async function loadModulesData(){
         const apiResponse = await GetAll();
         if(apiResponse){
             setModules(<ModulesTable modules={apiResponse} setSelection={setSelection}/>);
         }
     }
 
+    async function loadClassesData(){
+        const apiResponse = await GetOne(selection[0]);
+        setClasses(<ClassesTable classes={apiResponse.classes}
+                                 setClassesSelection={setClassesSelection}/>);
+    }
+
     useEffect(_ => {
-        loadData();
+        loadModulesData();
     }, []);
     
-    function openModal(){
-        setModalIsOpen(true);
+    function openNewModuleModal(){
+        setNewModuleModalIsOpen(true);
+    }
+
+    function closeNewModuleModal(){
+        setNewModuleModalIsOpen(false);
+        setNewModuleName("");
     }
 
     function openNewClassModal(){
@@ -61,65 +74,6 @@ export default function Modules(){
         setNewClassWhen(new Date());
     }
 
-    function closeModal(){
-        setModalIsOpen(false);
-        setNewModuleName("");
-    }
-
-    function closeClassesModal(){
-        setEditingClassesModalIsOpen(false);
-    }
-
-    async function save(){
-        if(validateFieldsModule()){
-            const apiResponse = await Post(newModuleName);
-            if(apiResponse){
-                closeModal();
-                loadData();
-            }else{
-                alert("Erro ao salvar o modulo!");
-            }
-        }else{
-            alert("Por favor preencha o nome do módulo para salvar!");
-        }
-    }
-
-    async function deleteF(){
-        try {
-            for(let item in selection){
-                const apiResponse = await Delete(selection[item]);
-                if(!apiResponse){
-                    throw new Error("Erro ao deletar o item " + selection[item]);
-                }
-            }
-            loadData();
-        } catch (e){
-            alert(e);
-            console.log(e);
-        }
-    }
-
-    async function loadDataClass(){
-        const apiResponse = await GetOne(selection[0]);
-        setClasses(<ClassesTable classes={apiResponse.classes}
-                                 setClassesSelection={setClassesSelection}/>);
-    }
-
-    async function deleteFClasses(){
-        try {
-            for(let item in classesSelection){
-                const apiResponse = await DeleteClass(classesSelection[item]);
-                if(!apiResponse){
-                    throw new Error("Erro ao deletar o item " + classesSelection[item]);
-                }
-            }
-            loadDataClass();
-        } catch (e){
-            alert(e);
-            console.log(e);
-        }
-    }
-
     async function editClasses(){
         if(selection.length !== 1){
             alert('Você só pode editar as aulas de um módulo por vez');
@@ -130,18 +84,8 @@ export default function Modules(){
         }
     }
 
-    async function saveNewClass(){
-        if(validateFieldsClass()){
-            const apiResponse = await PostClass(newClassName, selection[0], newClassWhen.toISOString());
-            if(apiResponse){
-                closeNewClassModal();
-                loadDataClass();
-            }else{
-                alert("Erro ao salvar a classe!");
-            }
-        }else{
-            alert("Por favor preencha o nome da classe para salvar!");
-        }
+    function closeClassesModal(){
+        setEditingClassesModalIsOpen(false);
     }
 
     function validateFieldsModule(){
@@ -150,6 +94,62 @@ export default function Modules(){
 
     function validateFieldsClass(){
         return newClassName !== "";
+    }
+
+    async function save(){
+        if(validateFieldsModule()){
+            const apiResponse = await Post(newModuleName);
+            if(apiResponse){
+                closeNewModuleModal();
+                loadModulesData();
+            }else{
+                alert("Erro ao salvar o modulo!");
+            }
+        }else{
+            alert("Por favor preencha o nome do módulo para salvar!");
+        }
+    }
+
+    async function saveNewClass(){
+        if(validateFieldsClass()){
+            const apiResponse = await PostClass(newClassName, selection[0], newClassWhen.toISOString());
+            if(apiResponse){
+                closeNewClassModal();
+                loadClassesData();
+            }else{
+                alert("Erro ao salvar a classe!");
+            }
+        }else{
+            alert("Por favor preencha o nome da classe para salvar!");
+        }
+    }
+
+    async function deleteModules(){
+        try {
+            for(let item in selection){
+                const apiResponse = await Delete(selection[item]);
+                if(!apiResponse){
+                    throw new Error("Erro ao deletar o item " + selection[item]);
+                }
+            }
+            loadModulesData();
+        } catch (e){
+            alert("Erro ao deletar modulo(s)");
+        }
+    }
+
+    async function deleteClasses(){
+        try {
+            for(let item in classesSelection){
+                const apiResponse = await DeleteClass(classesSelection[item]);
+                if(!apiResponse){
+                    throw new Error("Erro ao deletar o item " + classesSelection[item]);
+                }
+            }
+            loadClassesData();
+        } catch (e){
+            alert("Erro ao deletar classe(s)!");
+        }
     }
 
     return <div style={{height : '100vh'}}>
@@ -179,8 +179,8 @@ export default function Modules(){
                     `}
                 </style>
                 <div className="row">
-                    <button onClick={openModal}>Novo</button>
-                    <button onClick={deleteF} style={{marginLeft : 10}}>Deletar</button>
+                    <button onClick={openNewModuleModal}>Novo</button>
+                    <button onClick={deleteModules} style={{marginLeft : 10}}>Deletar</button>
                     <button onClick={editClasses} style={{marginLeft : 10}}>Editar Aulas</button>
                     <button style={{marginLeft : 10}}
                             onClick={_ => {
@@ -189,13 +189,13 @@ export default function Modules(){
                             }}>Sair</button>
                 </div>
                 {(modules) ? modules : "Carregando..."}
-                <Modal isOpen={modalIsOpen}
+                <Modal isOpen={newModuleModalIsOpen}
                        style={customStyles}
                        contentLabel="Adicionar um novo modulo">
                     <div className="row2">
                         <h2>Adicionar um novo modulo</h2>
                         <div style={{display : "flex", flexDirection : "column", paddingLeft : 10}}>
-                            <button onClick={closeModal}>X</button>
+                            <button onClick={closeNewModuleModal}>X</button>
                         </div>
                     </div>
                     <div className="row2">
@@ -217,7 +217,7 @@ export default function Modules(){
                     </div>
                     <div className="row">
                         <button onClick={openNewClassModal}>Novo</button>
-                        <button onClick={deleteFClasses} style={{marginLeft : 10}}>Deletar</button>
+                        <button onClick={deleteClasses} style={{marginLeft : 10}}>Deletar</button>
                     </div>
                     <div className="row2" style={{height : '50vh'}}>
                         {classes}
