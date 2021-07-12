@@ -13,6 +13,8 @@ import { DateTimePicker } from '@material-ui/pickers';
 import Cookies from 'cookies';
 import Head from 'next/head';
 import cookieCutter from 'cookie-cutter';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 const customStyles = {
     content: {
@@ -152,100 +154,108 @@ export default function Modules(){
         }
     }
 
-    return <div style={{height : '100vh'}}>
+    return <GlobalStyles style={{height : '100vh', padding : 50}}>
                 <Head>
                     <title>Administração</title>
                 </Head>
-                <style jsx global>
-                    {`
-                        .row {
-                            display : flex;
-                            justify-content : flex-end; 
-                            padding-bottom : 10px;  
-                        }
-                        .column {
-                            display : flex;
-                            flex-direction : column;
-                        }
-                        .row2 {
-                            display : flex;
-                            justify-content : space-between;   
-                        }
-                        h2 {
-                            color : black;
-                            font-size : 30px;
-                            font-family : "Biennale Regular";
-                        }
-                    `}
-                </style>
-                <div className="row">
-                    <button onClick={openNewModuleModal}>Novo</button>
-                    <button onClick={deleteModules} style={{marginLeft : 10}}>Deletar</button>
-                    <button onClick={editClasses} style={{marginLeft : 10}}>Editar Aulas</button>
-                    <button style={{marginLeft : 10}}
+                <div className="row-start">
+                    <h1 className="blackh1">Administração do Site</h1>
+                </div>
+                <div className="row-end">
+                    <Button variant="contained" color="primary" onClick={openNewModuleModal}>
+                        Novo
+                    </Button>
+                    <Button variant="contained"
+                            color="primary"
+                            onClick={deleteModules}
+                            style={{marginLeft : 10}}>
+                                Deletar
+                    </Button>
+                    <Button variant="contained"
+                            color="primary"
+                            onClick={editClasses}
+                            style={{marginLeft : 10}}>
+                                Editar Aulas
+                    </Button>
+                    <Button variant="contained"
+                            color="primary"
+                            style={{marginLeft : 10}}
                             onClick={_ => {
                                 cookieCutter.set("authenticated", "");
                                 router.push("/login");
-                            }}>Sair</button>
+                            }}>
+                                Sair
+                    </Button>
                 </div>
                 {(modules) ? modules : "Carregando..."}
                 <Modal isOpen={newModuleModalIsOpen}
                        style={customStyles}
                        contentLabel="Adicionar um novo modulo">
-                    <div className="row2">
+                    <div className="row-space-between">
                         <h2>Adicionar um novo modulo</h2>
                         <div style={{display : "flex", flexDirection : "column", paddingLeft : 10}}>
-                            <button onClick={closeNewModuleModal}>X</button>
+                            <Button variant="contained" color="primary" onClick={closeNewModuleModal}>X</Button>
                         </div>
                     </div>
-                    <div className="row2">
-                        <input type="text"
-                               value={newModuleName}
-                               placeholder="Nome do módulo"
-                               onChange={e => setNewModuleName(e.target.value)}/>
-                        <button onClick={save}>SALVAR</button>
+                    <div className="col">
+                        <TextField value={newModuleName}
+                                   placeholder="Nome do módulo"
+                                   onChange={e => setNewModuleName(e.target.value)}
+                                   style={{marginBottom : 20, marginTop : 20}}/>
+                        <Button variant="contained" color="primary" onClick={save}>SALVAR</Button>
                     </div>
                 </Modal>
                 <Modal isOpen={editingClassesModalIsOpen}
                        style={customStyles}
                        contentLabel="Editar as aulas do módulo">
-                    <div className="row2">
+                    <div className="row-space-between" style={{marginBottom : 20}}>
                         <h2>Editar as aulas do módulo</h2>
                         <div style={{display : "flex", flexDirection : "column", paddingLeft : 10}}>
-                            <button onClick={closeClassesModal}>X</button>
+                            <Button variant="contained" color="primary" onClick={closeClassesModal}>X</Button>
                         </div>
                     </div>
-                    <div className="row">
-                        <button onClick={openNewClassModal}>Novo</button>
-                        <button onClick={deleteClasses} style={{marginLeft : 10}}>Deletar</button>
+                    <div className="row-end">
+                        <Button variant="contained"
+                                color="primary"
+                                onClick={openNewClassModal}>
+                                    Novo
+                        </Button>
+                        <Button variant="contained"
+                                color="primary"
+                                onClick={deleteClasses}
+                                style={{marginLeft : 10}}>
+                                    Deletar
+                        </Button>
                     </div>
-                    <div className="row2" style={{height : '50vh'}}>
+                    <div className="row-space-between" style={{height : '50vh'}}>
                         {classes}
                     </div>
                 </Modal>
                 <Modal isOpen={newClassModalIsOpen}
                        style={customStyles}
                        contentLabel="Criar uma nova aula">
-                    <div className="row2">
+                    <div className="row-space-between" style={{marginBottom : 20}}>
                         <h2>Criar uma nova aula</h2>
                         <div style={{display : "flex", flexDirection : "column", paddingLeft : 10}}>
-                            <button onClick={closeNewClassModal}>X</button>
+                            <Button variant="contained"
+                                    color="primary"
+                                    onClick={closeNewClassModal}>
+                                    X
+                            </Button>
                         </div>
                     </div>
-                    <div className="row2">
-                        <div className="column">
-                            <input type="text"
-                                   placeholder="Nome da classe"
+                    <div className="col">
+                        <TextField placeholder="Nome da classe"
                                    value={newClassName}
                                    onChange={e => setNewClassName(e.target.value)}
                                    style={{marginBottom : 10}}/>
-                            <DateTimePicker value={newClassWhen}
-                                            onChange={setNewClassWhen}/>
-                        </div>
-                        <button onClick={saveNewClass}>SALVAR</button>
+                        <DateTimePicker value={newClassWhen}
+                                        onChange={setNewClassWhen}
+                                        style={{marginBottom : 20}}/>
+                        <Button variant="contained" color="primary" onClick={saveNewClass}>SALVAR</Button>
                     </div>
                 </Modal>
-            </div>
+            </GlobalStyles>
 }
 
 export async function getServerSideProps(ctx) {

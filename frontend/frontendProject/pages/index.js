@@ -13,7 +13,7 @@ const styles = {
         flex : 1,
         justifyContent : "center",
         height : "100vh",
-        padding : 10
+        padding : 50
     },
     topTexts : {
         paddingBottom : 30
@@ -46,7 +46,7 @@ export default function Home(){
                 </Head>
                 <div style={styles.container}>
                         <div style={styles.topTexts}>
-                            <h1>Módulos</h1>
+                            <h1 style={{marginBottom : 10}}>Módulos</h1>
                             <p>Selecione o módulo para ver as aulas disponíveis:</p>
                         </div>
                         {modules}

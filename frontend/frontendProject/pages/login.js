@@ -27,6 +27,7 @@ export default function Login() {
                 <Head>
                     <title>Login</title>
                 </Head>
+                <img src="https://via.placeholder.com/150?text=Admin"/>
                 <div className="col">
                     <FilledInput placeholder="Nome do usuário"
                                  style={{backgroundColor : "white"}}
@@ -37,7 +38,7 @@ export default function Login() {
                                      style={{backgroundColor : "white"}}
                                      onChange={e => setPassword(e.target.value)}/>
                     </div>
-                    <div className="row" style={{marginTop : 10, marginBottom : 30}}>
+                    <div className="row-center" style={{marginTop : 10, marginBottom : 30}}>
                         <Button variant="contained"
                                 onClick={_ => doLogin(username, password)}
                                 style={{color : "white", flex : 1}}

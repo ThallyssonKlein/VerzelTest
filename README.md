@@ -23,5 +23,15 @@ Another instance of the terminal:
 cd backend/backendProject;pipenv install --skip-lock;pipenv run python manage.py runserver 127.0.0.1:8000
 ```
 
+## How to use
+
+Frontend URL: http://localhost:3000
+
+Admin interface URL: http://localhost:3000/modules
+
+Admin username: thallyssonklein
+
+Admin password: abcde
+
 ## The API doc:
 http://127.0.0.1:8000/api/doc/v1/

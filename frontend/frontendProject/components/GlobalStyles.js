@@ -14,6 +14,11 @@ export default function GlobalStyles({ children, style, className }) {
                         font-size : 30px;
                         font-family : "Biennale Regular";
                     }
+                    h2 {
+                        color : black;
+                        font-size : 30px;
+                        font-family : "Biennale Regular";
+                    }
                     p {
                         color : rgb(161, 145, 255);
                         font-family : "Catesque Regular"
@@ -26,15 +31,45 @@ export default function GlobalStyles({ children, style, className }) {
                         justify-content : center;
                         align-items: center;
                     }
-                    col {
+                    .col {
                         display : flex;
                         flex-direction : column;
                     }
-                    .row {
+                    .row-center {
                         display : flex;
                         flex-direction : row;
                         
                         align-items : center;
+                    }
+                    .row-end {
+                        display : flex;
+                        justify-content : flex-end; 
+                        padding-bottom : 10px;  
+                    }
+                    .row-space-between {
+                        display : flex;
+                        justify-content : space-between;   
+                    }
+                    .row-start {
+                        display : flex;
+                        flex-direction : row;
+                        justify-content : flex-start;
+                    }
+                    .block {
+                        border: 1px solid rgb(67, 51, 118);
+                        background: rgb(36, 18, 75) none repeat scroll 0% 0%;
+                        font-size : 30px;
+                        color : rgb(59, 212, 45);
+                        padding : 50px;
+                    }
+                    .block:hover {
+                        border: 1px solid rgb(59, 212, 45);
+                        cursor: pointer;
+                    }
+                    .blackh1 {
+                        color : black;
+                        font-size : 30px;
+                        font-family : "Biennale Regular";
                     }
                 `}
             </style>
