@@ -19,6 +19,15 @@ cd frontend/frontendProject;yarn;yarn dev
 
 Another instance of the terminal:
 
+- [ ] Install Python3.7 and pip
+- [ ] Run:
+
+```
+pip install pipenv
+```
+
+- [ ] Then run:
+
 ```
 cd backend/backendProject;pipenv install --skip-lock;pipenv run python manage.py runserver 127.0.0.1:8000
 ```
