@@ -1,0 +1,28 @@
+version: "3"
+
+networks:
+  frontend_net:
+    driver: bridge
+
+services:
+  frontend:
+    container_name: frontend
+    hostname: frontend
+    build: ./frontend
+    networks:
+      - frontend_net
+    ports:
+      - 3000:3000
+    links:
+      - backend
+    depends_on:
+      - backend
+  backend:
+    container_name: backend
+    hostname: backend
+    build: ./backend
+    restart: on-failure
+    networks:
+      - frontend_net
+    ports:
+      - 8000:8000
